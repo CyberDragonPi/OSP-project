@@ -11,6 +11,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
+
+<h1>MOTIVACIJA I UVOD</h1>
+<p>Kao ljubitelji društvene igre Catan te osobe koje ne vole gubiti, autori ovog rada izabrali su ovu temu s ciljem pronalaženja informacija, kako bi poboljšali svoju strategiju te šansu za pobjedu prilikom igranja s prijateljima. Zbog toga, ali i nekih iskustvenih pojava, ovaj rad pokušava dati odgovor na sljedeća pitanja:</p>
+<ol start="1" style="margin-left: 5em;">
+  <li>Je li kocka zaista poštena?</li>
+  <li>Postoji li neka kombinacija resurs(a) na početnim susjednim poljima koja povećava vjerojatnost pobjede?</li>
+  <li>Postoji li neka kombinacija broj(eva) na početnim susjednim poljima koja povećava vjerojatnost pobjede?</li>
+  <li></li>
+</ol>
+
 ```{r cars}
 ```
 
