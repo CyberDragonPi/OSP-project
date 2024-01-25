@@ -14,10 +14,15 @@ dice_frequency <- game_winner_data[, columns_to_extract]
 #nrow(dice_frequency) %>% print()
 #ncol(dice_frequency) %>% print()
 
-frequency_df <- data.frame(number = possible_sums, frequency = colSums(dice_frequency, na.rm = TRUE))
+frequency_df <- data.frame(number = possible_sums, number_frequency = colSums(dice_frequency, na.rm = TRUE))
 #colnames(frequency_df) <- c("sum", "frequency")
 #ncol(frequency_df) %>% print()
 #head(frequency_df) %>% print()
 
-dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = frequency)) + geom_bar(color = "blue")
-ggsave("figures/dice_frequency_bar.png")
+dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = number_frequency)) + geom_bar(fill = "blue", stat = "identity")
+ggsave("figures/dice_frequency_bar.png", plot = dice_frequency_plot)
+
+first_round <- game_winner_data[c(17), columns_to_extract]
+one_round_frequency <- data.frame(number = possible_sums, number_frequency = colSums(first_round, na.rm = TRUE))
+first_round_plot <- ggplot(one_round_frequency, aes(x = number, y = number_frequency)) + geom_bar(fill = "blue", stat = "identity")
+ggsave("figures/dice_frequency_round_one_bar.png", plot = first_round_plot)

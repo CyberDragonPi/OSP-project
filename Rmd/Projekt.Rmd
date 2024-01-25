@@ -113,7 +113,7 @@ Zaključak
 ## 2.2 Utjecaj početnih brojeva na pobjedu
 
 <p>
-Nakon razočaravajućeg rezultata da resursi ne čine bitno razliku u određivanju pobjednika okrećemo se brojevima u našem nastojanju da maksimiziramo svoje šanse pobjede već na početku igre.
+Nakon razočaravajućeg rezultata da početni resursi ne čine bitno razliku u određivanju pobjednika okrećemo se brojevima u našem nastojanju da maksimiziramo svoje šanse pobjede već na početku igre.
 </p>
 
 ```{r}
