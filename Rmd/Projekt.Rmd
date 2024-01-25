@@ -19,20 +19,133 @@ knitr::opts_chunk$set(echo = TRUE)
   <li></li>
 </ol>
 
+```{r}
+source("../R/CatanDataLoading.R")
+```
+
+
 \newpage
 ## 1. Je li kocka poštena?
 
 TODO filler text
 
 \newpage
-## 2. Utjecaj početnih resursa na pobjedu
+## 2. Utjecaj početka igre na pobjedu
 
-TODO filler text
+<p>
+Najbitnija stvar u igri Catan je kao i u svakoj društvenoj igri pobjediti, pa ćemo nakon prethodne, očito pogrešne, analize da je kocka poštena (svatko tko je igrao bilo kakvu društvenu igru zna da kocka nikako nije poštena) pokušati otkriti kako pobijediti. Prvo ćemo razmatrati kako početak igre utječe na izglede pobjede. Pokušati ćemo odgovoriti na dva pitanja u ovom dijelu:
+</p>
+<ol start="1" style="margin-left: 5em;">
+  <li>
+  Utječu li, i ako da kako, početni resursi na vjerojatnost pobjede?
+  </li>
+  <li>
+  Utječu li, i ako da kako, brojevi na poljima oko našeg početnog settlementa na vjerojatnos pobjede?
+  </li>
+</ol>
+
+## 2.1. Utjecaj početnih resursa na pobjedu
+
+<p>
+Prije početka legenda resursa:
+</p>
+<ol start="1" style="margin-left: 5em;">
+<li>
+L = lumber (hrv. drvo)
+</li>
+<li>
+C = clay (hrv. cigla)
+</li>
+<li>
+S = sheep (hrv. ovca)
+</li>
+<li>
+W = wheat (hrv. žito)
+</li>
+<li>
+O = ore (hrv. kamen)
+</li>
+<li>
+3G = 3:1 general port (hrv. luka)
+</li>
+<li>
+2(X) = 2:1 port for resource X (hrv. luka za resurs X)
+</li>
+<li>
+D = desert (hrv. pustinja)
+</li>
+<li>
+B = blank (moguće je postaviti settlement da graniči s 2 polja, umjesto 3)
+</li>
+</ol>
+<p>
+*Translator note: nazivi nisu doslovno prevedeni te vjerojatno svi imaju načine kako zovu polja u svojim igrama. Korišten je prijevod koji autori koriste kad igraju ovu igru.
+</p>
+
+```{r}
+source("../R/AnalyseStartingResources.R")
+ggplot() +
+  geom_col(aes(x = names(starting_resources_table),
+               y = starting_resources_table,
+               fill = "Non-winners"),
+           alpha = 0.5, position = "dodge") +
+  geom_col(aes(x = names(starting_resources_winners_table),
+               y = starting_resources_winners_table,
+               fill = "Winners"),
+           alpha = 0.5, position = "dodge") +
+  scale_fill_manual(name = "Legend",
+                    breaks = c("Non-winners", "Winners"),
+                    values = c("Non-winners" = "#0827F5", "Winners" = "#AB2328")) +
+  labs(title = "Starting resources occurances", x = "Resource", y = "Percantage")
+```
+
+<p>
+Iz grafa je evidentno da svi igrači imaju prilično sličnu viziju kako igrati Catan. Pobjednici cijene ovce(S na grafu) kao resurs više od ostalih igrača, no osim toga čini se da igrači stavljaju vrlo slične vrijednosti na resurse.
+</p>
+<h2>
+Zaključak
+</h2>
+<p>
+Čini se da pšenica i ovcu imaju najveću vrijednost pri postavljanju početna 2 naselja, nakon čega slijedi drvo te veliku vrijednost, no manju od prethodna 3 resursa, imaju i kamen i cigla. Luke imaju izuzetno malu vrijednost, te pobjednici jedino stavljaju bitno veći prioritet na ovce od ostalih igrača (čak nevjerojatnih 2.5% više pobjednika u prva dva naselja osigura pristup ovcama u odnosu na ostale igrače), tako da je možda pametno osigurati pristup ovcama na početku igre.
+</p>
 
 \newpage
-## 3. Utjecaj početnih brojeva na pobjedu
+## 2.2 Utjecaj početnih brojeva na pobjedu
 
-TODO filler text
+<p>
+Nakon razočaravajućeg rezultata da resursi ne čine bitno razliku u određivanju pobjednika okrećemo se brojevima u našem nastojanju da maksimiziramo svoje šanse pobjede već na početku igre.
+</p>
 
+```{r}
+source("../R/AnalyseStartingNumbers.R")
+ggplot() +
+  geom_col(aes(x = fct_reorder(names(starting_numbers_table),
+                               as.numeric(names(starting_numbers_table))),
+               y = starting_numbers_table,
+               fill = "Non-winners"),
+           alpha = 0.5, position = "dodge") +
+  geom_col(aes(x = fct_reorder(names(starting_numbers_winners_table),
+                               as.numeric(names(starting_numbers_winners_table))),
+               y = starting_numbers_winners_table,
+               fill = "Winners"),
+           alpha = 0.5, position = "dodge") +
+  scale_fill_manual(name = "Legend",
+                    breaks = c("Non-winners", "Winners"),
+                    values = c("Non-winners" = "#0827F5", "Winners" = "#AB2328")) +
+labs(title = "Starting numbers occurances", x = "Numbers", y = "Percantage")
+```
+
+<p>
+Za razliku od prethodne analize vidimo da postoji bitnija razlika u biranju brojeva na početnim poljima između pobjednika i ostalih igrača. Pobjednici češće biraju brojeve u intervalu [5, 10], dok ostali igrači češće biraju preostale brojeve.
+</p>
+
+<h2>
+Zaključak
+</h2>
+<p>
+Čini se da je puno bitnije odabrati polja koja imaju "dobre" brojeve (brojeve koji imaju veću vjerojatnost da padnu) na početku igre, nego fokusirati se na resurse, tako da sljedeći put kad igrate dobro razmislite kako postaviti svoja naselja tako da maksimizirate vjerojatnost da dobijete nešto u svakom bacanju. Ovakav rezultat ide u prilog rezultatu da je kocka poštena, iako mislim da se svi iskustveno možemo složiti da je kocka sve osim poštena.
+</p>
+
+\newpage
 ----------------------------------------------
 TODO lorem ipsum 
