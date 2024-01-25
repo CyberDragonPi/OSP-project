@@ -21,5 +21,5 @@ ggplot() +
            alpha = 0.5, position = "dodge") +
   scale_fill_manual(name = "Legend",
                     breaks = c("Non-winners", "Winners"),
-                    values = c("Non-winners" = "#0827F5", "Winners" = "#AB2328"))
+                    values = c("Non-winners" = "#0827F5", "Winners" = "#AB2328")) +
   labs(title = "Starting resources occurances", x = "Resource", y = "Percantage")
