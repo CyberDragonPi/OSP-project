@@ -2,17 +2,15 @@
 title: "Projekt - Settlers of Catan stats"
 author: "36544062 Marko Pongrac, 36540794 Marko Kukolj"
 date: "`r Sys.Date()`"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## 0. MOTIVACIJA I UVOD
 
-
-<h1>MOTIVACIJA I UVOD</h1>
 <p>Kao ljubitelji društvene igre Catan te osobe koje ne vole gubiti, autori ovog rada izabrali su ovu temu s ciljem pronalaženja informacija, kako bi poboljšali svoju strategiju te šansu za pobjedu prilikom igranja s prijateljima. Zbog toga, ali i nekih iskustvenih pojava, ovaj rad pokušava dati odgovor na sljedeća pitanja:</p>
 <ol start="1" style="margin-left: 5em;">
   <li>Je li kocka zaista poštena?</li>
@@ -21,15 +19,20 @@ knitr::opts_chunk$set(echo = TRUE)
   <li></li>
 </ol>
 
-```{r cars}
-```
+\newpage
+## 1. Je li kocka poštena?
 
-## Including Plots
+TODO filler text
 
-You can also embed plots, for example:
+\newpage
+## 2. Utjecaj početnih resursa na pobjedu
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+TODO filler text
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+\newpage
+## 3. Utjecaj početnih brojeva na pobjedu
+
+TODO filler text
+
+----------------------------------------------
+TODO lorem ipsum 
