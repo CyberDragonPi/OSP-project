@@ -25,4 +25,4 @@ ggplot() +
   scale_fill_manual(name = "Legend",
                     breaks = c("Non-winners", "Winners"),
                     values = c("Non-winners" = "#0827F5", "Winners" = "#AB2328")) +
-labs(title = "Starting numbers occurances", x = "Resource", y = "Percantage")
+labs(title = "Starting numbers occurances", x = "Numbers", y = "Percantage")
