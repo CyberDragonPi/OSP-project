@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ggplot2)
 
-starting_resources <- catan_data[, seq(17, 27, by = 2)]
+starting_resources <- non_game_winner_data[, seq(17, 27, by = 2)]
 starting_resources_winners <- game_winner_data[, seq(17, 27, by = 2)]
 
 starting_resources_vector <- do.call(c, starting_resources)
