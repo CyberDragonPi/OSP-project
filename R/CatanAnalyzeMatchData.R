@@ -19,5 +19,5 @@ frequency_df <- data.frame(number = possible_sums, frequency = colSums(dice_freq
 #ncol(frequency_df) %>% print()
 #head(frequency_df) %>% print()
 
-dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = frequency)) + geom_col(color = "blue")
-ggsave("figures/dice_frequency.png", type = "png")
+dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = frequency)) + geom_bar(color = "blue")
+ggsave("figures/dice_frequency_bar.png")
