@@ -22,7 +22,6 @@ library(ggplot2)
 </ol>
 
 ```{r}
-getwd()
 source("../R/CatanDataLoading.R")
 ```
 
@@ -34,17 +33,32 @@ Svima se sigurno dogodila partija u kojoj su naselja lukavo postavili na pozicij
 </p>
 ```{r, message = FALSE}
 source("../R/CatanAnalyseMatchData.R")
-mean_frequency <- mean(frequency_df$number_frequency)
-sd_frequency <- sd(frequency_df$number_frequency)
 
 dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = number_frequency)) + 
   geom_bar(fill = "red", stat = "identity") +
-  geom_text(aes(x = number, y = 0, label = number), stat = "identity", vjust = -1, size = 3) + 
-  geom_smooth(method)
+  geom_text(aes(x = number, y = 0, label = number), stat = "identity", vjust = -1, size = 3)
 dice_frequency_plot %>% print()
 ```
 
+<p> Međutim, i dalje je moguće da postoje nepravilnosti u broju pojavljivanja određenog zbroja na kockama. Zbog toga uvodimo novu metriku "average rank". Ona u svakoj partiji rangira broj pojavljivanja određenog zbroja(zbroj koji se najčešće pojavio ima rang 1 u partiji, sljedeći 2 itd.) te ćemo odrediti koji je prosječni rang svakog zbroja na kockama. Taj broj ćemo zatim usporediti s teoretskim prosječnim rangom.
+</p>
 
+```{r}
+ranked_frequencies_plot <- ggplot(ranked_df, aes(x = factor(number), y = average_rank, fill = expected)) + 
+  geom_col(position = "identity", alpha = 0.5) + 
+  geom_text(aes(x = number, y = 0, label = number), stat = "identity", vjust = -1, size = 3) +
+  scale_fill_manual(values = c("FALSE" = "red", "TRUE" = "yellow"), labels = c("real rank", "expected rank")) +
+  labs(title = "Ranked Frequencies", x = "Number", y = "Average Rank")
+
+ranked_frequencies_plot %>% print()
+```
+<p>
+Primijetimo da oko sredine, odnosno najčešće dobivenih brojeva postoje određene razlike u očekivanom i stvarnom rangu. To je očekivano, budući da je taj dio najosjetljiviji na promjene. I iako stvarni poredak broja pojavljivanja odgovara teoretskom, oko između kombinacija brojeva 5, 6, 8, i 9 postoje izrazito male razlike.
+</p>
+
+<p> 
+Možemo zaključiti da kocka zaista je poštena, te da ako se igračima čini da je nepoštena, ne igraju dovoljno često Catan da bi primijetili da je poštena ili jednostavno ne mogu prihvatiti da su loši u igri. 
+</p>
 
 \newpage
 ## 2. Utjecaj početka igre na pobjedu

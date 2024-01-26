@@ -20,9 +20,12 @@ frequency_df <- data.frame(number = possible_sums, number_frequency = colSums(di
 #ncol(frequency_df) %>% print()
 #head(frequency_df) %>% print()
 
+frequency_df$cumulative_sum <- cumsum(frequency_df$number_frequency)
+
 dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = number_frequency)) + geom_bar(fill = "red", stat = "identity") +
 geom_text(aes(x = number, y = 0, label = number), stat = "identity", vjust = -1, size = 3)
 ggsave("../figures/dice_frequency_bar.png", plot = dice_frequency_plot) 
+
 
 
 rank_rows <- function(row) {
