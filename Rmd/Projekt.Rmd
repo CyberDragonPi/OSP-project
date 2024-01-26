@@ -20,6 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 </ol>
 
 ```{r}
+getwd()
 source("../R/CatanDataLoading.R")
 ```
 
@@ -29,8 +30,16 @@ source("../R/CatanDataLoading.R")
 <p>
 Svima se sigurno dogodila partija u kojoj su naselja lukavo postavili na poziciju susjednu poljima s brojevima koji bi teoretski trebali češće padati, međutim magično su se brojevi 3 i 12 pojavljivali češće nego 8 i 9. Budući da se i njima samima dogodila takva partija, autori rada odlučili su prvo istražiti je li kocka poštena. Odnosno, pojavljuje li se zaista broj 7 najčešće, malo rjeđe brojevi 6 i 8, i tako do bojeva 2 i 12, koji bi se najređe trebali pojavljivati. Budući da imamo prilično velik uzorak bacanja, distribucija brojeva bi trebala biti slična normalnoj.
 </p>
-```{r}
-source("../R/CatanAnalyseMatchData")
+```{r, message = FALSE}
+source("../R/CatanAnalyseMatchData.R")
+mean_frequency <- mean(frequency_df$number_frequency)
+sd_frequency <- sd(frequency_df$number_frequency)
+
+dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = number_frequency)) + 
+  geom_bar(fill = "red", stat = "identity") +
+  geom_text(aes(x = number, y = 0, label = number), stat = "identity", vjust = -1, size = 3) + 
+  geom_smooth(method)
+dice_frequency_plot %>% print()
 ```
 
 

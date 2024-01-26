@@ -3,8 +3,8 @@ library(ggplot2)
 library(dplyr)
 library(goftest)
 
-print("loading data...")
-catan_data <- read.csv('data/SettlersOfCatanStats.csv')
+#print("loading data...")
+catan_data <- read.csv('../data/SettlersOfCatanStats.csv')
 #head(catanData) %>% print()
 
 

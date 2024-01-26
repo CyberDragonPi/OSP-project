@@ -4,7 +4,7 @@ library(dplyr)
 library(goftest)
 
 #print(getwd())
-source("R/CatanDataLoading.R")
+source("../R/CatanDataLoading.R")
 #all_variables <- ls()
 #print(all_variables)
 
@@ -22,7 +22,7 @@ frequency_df <- data.frame(number = possible_sums, number_frequency = colSums(di
 
 dice_frequency_plot <- ggplot(frequency_df, aes(x = number, y = number_frequency)) + geom_bar(fill = "red", stat = "identity") +
 geom_text(aes(x = number, y = 0, label = number), stat = "identity", vjust = -1, size = 3)
-ggsave("figures/dice_frequency_bar.png", plot = dice_frequency_plot) 
+ggsave("../figures/dice_frequency_bar.png", plot = dice_frequency_plot) 
 
 
 rank_rows <- function(row) {
@@ -35,7 +35,7 @@ dice_frequencies_rounds_ranked <- as.data.frame(t(apply(dice_frequency, 1, rank_
 ranked_frequencies_df <- data.frame(number = possible_sums, average_rank = colMeans(dice_frequencies_rounds_ranked, na.rm = TRUE), expected = rep(FALSE, time = 11))
 expected_rank_df <- data.frame(number = possible_sums, average_rank = c(10, 8, 6, 4, 2, 1, 2, 4, 6, 8, 10), expected = rep(TRUE, time = 11))
 ranked_df <- rbind(ranked_frequencies_df, expected_rank_df)
-ranked_df %>% print()
+#ranked_df %>% print()
 
 ranked_df$number <- factor(ranked_df$number)
 
@@ -46,5 +46,5 @@ ranked_frequencies_plot <- ggplot(ranked_df, aes(x = factor(number), y = average
   scale_fill_manual(values = c("FALSE" = "red", "TRUE" = "yellow"), labels = c("real rank", "expected rank")) +
   labs(title = "Ranked Frequencies", x = "Number", y = "Average Rank")
 
-ggsave("figures/dice_frequency_ranked.png", plot = ranked_frequencies_plot)
+ggsave("../figures/dice_frequency_ranked.png", plot = ranked_frequencies_plot)
 
