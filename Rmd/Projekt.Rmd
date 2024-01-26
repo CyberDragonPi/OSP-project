@@ -352,7 +352,7 @@ Rezultati koje nam daje linearan model su vrlo loši, predviđa bodove s vrijedn
 ## Zaključak
 
 <p>
-U danom podatkovnom skupu nalaze se podaci o 50 partija igre Catan, tako da ne možemo tvrditi da je skup sasvim reprezentativan te da su rezultati mjerodavni, no rezultati su prilično konzistentni s rezultatima koji se mogu naći na internetu. Na početku ove analize postavili smo 4 pitanja na koja smo tražili odgovor te smo analizom dobili i odgovor na njih.
+U danom podatkovnom skupu nalaze se podaci o 50 partija igre Catan, tako da ne možemo tvrditi da je skup sasvim reprezentativan te da su rezultati mjerodavni, no rezultati su prilično konzistentni s rezultatima koji se mogu naći na internetu. Na početku ove analize postavili smo 5 pitanja na koja smo tražili odgovor te smo analizom dobili i odgovor na njih.
 </p>
 <ol start="1" style="margin-left: 5em;">
   <li>
