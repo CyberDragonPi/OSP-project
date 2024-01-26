@@ -170,6 +170,7 @@ U svrhu pobjeđivanje pokušati ćemo zaključiti imaju li dobitci i gubljenje r
 source("../R/Model.R")
 summary(linMod)
 ```
+
 <h2>
 Zaključak
 </h2>
