@@ -51,3 +51,4 @@ ranked_frequencies_plot <- ggplot(ranked_df, aes(x = factor(number), y = average
 
 ggsave("../figures/dice_frequency_ranked.png", plot = ranked_frequencies_plot)
 
+

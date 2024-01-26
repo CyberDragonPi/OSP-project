@@ -29,7 +29,7 @@ source("../R/CatanDataLoading.R")
 \newpage
 ## 1. Je li kocka poštena?
 <p>
-Svima se sigurno dogodila partija u kojoj su naselja lukavo postavili na poziciju susjednu poljima s brojevima koji bi teoretski trebali češće padati, međutim magično su se brojevi 3 i 12 pojavljivali češće nego 8 i 9. Budući da se i njima samima dogodila takva partija, autori rada odlučili su prvo istražiti je li kocka poštena. Odnosno, pojavljuje li se zaista broj 7 najčešće, malo rjeđe brojevi 6 i 8, i tako do bojeva 2 i 12, koji bi se najređe trebali pojavljivati. Budući da imamo prilično velik uzorak bacanja, distribucija brojeva bi trebala biti slična normalnoj.
+Svima se sigurno dogodila partija u kojoj su naselja lukavo postavili na poziciju susjednu poljima s brojevima koji bi teoretski trebali češće padati, međutim magično su se brojevi 3 i 12 pojavljivali češće nego 8 i 9. Budući da se i njima samima dogodila takva partija, autori rada odlučili su prvo istražiti je li kocka poštena. Odnosno, pojavljuje li se zaista broj 7 najčešće, malo rjeđe brojevi 6 i 8, i tako do bojeva 2 i 12, koji bi se najređe trebali pojavljivati. Budući da imamo prilično velik uzorak bacanja, distribucija zbrojeva bi prema centralnom graničnom teoremu trebala biti slična normalnoj.
 </p>
 ```{r, message = FALSE}
 source("../R/CatanAnalyseMatchData.R")
@@ -56,6 +56,9 @@ ranked_frequencies_plot %>% print()
 Primijetimo da oko sredine, odnosno najčešće dobivenih brojeva postoje određene razlike u očekivanom i stvarnom rangu. To je očekivano, budući da je taj dio najosjetljiviji na promjene. I iako stvarni poredak broja pojavljivanja odgovara teoretskom, oko između kombinacija brojeva 5, 6, 8, i 9 postoje izrazito male razlike.
 </p>
 
+<h2>
+ZAKLJUČAK
+</h2>
 <p> 
 Možemo zaključiti da kocka zaista je poštena, te da ako se igračima čini da je nepoštena, ne igraju dovoljno često Catan da bi primijetili da je poštena ili jednostavno ne mogu prihvatiti da su loši u igri. 
 </p>
@@ -71,7 +74,7 @@ Najbitnija stvar u igri Catan je kao i u svakoj društvenoj igri pobjediti, pa �
   Utječu li, i ako da kako, početni resursi na vjerojatnost pobjede?
   </li>
   <li>
-  Utječu li, i ako da kako, brojevi na poljima oko našeg početnog settlementa na vjerojatnos pobjede?
+  Utječu li, i ako da kako, brojevi na poljima oko našeg početnog settlementa na vjerojatnost pobjede?
   </li>
 </ol>
 
@@ -181,6 +184,42 @@ Zaključak
 
 \newpage
 ## 4. Redoslijed postavljanja naselja (naslov WIP)
+<p>
+Za većinu društvenih igara, osobe koje ih igraju malo ozbiljnije smatraju da je bolje biti osoba koja započinje igru, odnosno biti prvi na potezu. Budući da je cilj rada pokušati naći informaciju koja može dovesti do povećanja vjerojatnosti pobjede, ispitati ćemo istinitost ove tvrdnje. Konkretnije, tražimo postoji li korelacija između redoslijeda igranja i osvojenog broja bodova te broja pobjeda.
+</p>
+```{r}
+catan_data$player <- factor(catan_data$player)
+
+order_points_plot <- ggplot(catan_data, aes(x = points, fill = player)) +
+  geom_bar() +
+  facet_wrap(~ player) +
+  labs(title = "Plot of Points by Player Order", x = "Points", y = "Frequency", fill = "Order")
+
+order_points_plot %>% print()
+```
+<p>
+Na temelju analize grafova, možemo zaključiti da redoslijed igranja ne igra veliku ulogu u osvajanju broja bodova, iako je primjetno da nešto više puta pobjeđuje igrač koji je 2. na potezu te da manje bodova osvaja upravo igrač koji započinje igru.. Sada idemo analizirati ovisnost broja pobjeda i redoslijeda igranja.
+</p>
+
+```{r}
+catan_data$winner <- ifelse(catan_data$points >= 10, TRUE, FALSE)
+wins_by_order <- catan_data %>% group_by(player) %>% summarize(number_of_wins = sum(winner))
+
+wins_by_order_plot <- ggplot(wins_by_order, aes(x = player, y = number_of_wins)) + 
+  geom_bar(fill = "red", stat = "identity")
+wins_by_order_plot %>% print()
+```
+<p>
+Iako rezultate treba interpretirati s oprezom, budući da mi pretpostavljamo da su sva 4 igrača jednako vješta u igri, primjetna je ogromna razlika u broju pobjeda, pogotovo u odnosu na ispitanu tvrdnju. Vidljivo je da najviše pobjeđuju igrači koji su 2. ili 3. na potezu, dok 1. i 4. najrjeđe pobjeđuju. Dapače, vjerojatnost pobjede za 2. po redu igrača raste sa očekivanih 25% na 36%.
+</p>
+
+<h2>
+ZAKLJUČAK
+</h2>
+
+<p>
+Suprotno pretpostavci da osoba koja je prva na potezu pobjeđuje češće od ostalih, čini se da ustvari najčešće pobjeđuje osoba koja je po redu 2. na potezu. Naravno, ovaj zaključak dolazi uz pretpostavku da su sva 4 igrača jednako dobri. 
+</p>
 
 \newpage
 ## 5. Predikcija
