@@ -146,6 +146,14 @@ Zaključak
 Čini se da je puno bitnije odabrati polja koja imaju "dobre" brojeve (brojeve koji imaju veću vjerojatnost da padnu) na početku igre, nego fokusirati se na resurse, tako da sljedeći put kad igrate dobro razmislite kako postaviti svoja naselja tako da maksimizirate vjerojatnost da dobijete nešto u svakom bacanju. Ovakav rezultat ide u prilog rezultatu da je kocka poštena, iako mislim da se svi iskustveno možemo složiti da je kocka sve osim poštena.
 </p>
 
+## 3. Tradeanje (naslov WIP)
+
 \newpage
-----------------------------------------------
+## 4. Redoslijed postavljanja naselja (naslov WIP)
+
+\newpage
+## 5. Predikcija
+
+\newpage
+Zaključak
 TODO lorem ipsum 
