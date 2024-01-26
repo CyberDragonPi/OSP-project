@@ -18,7 +18,7 @@ library(ggplot2)
   <li>Je li kocka zaista poštena?</li>
   <li>Postoji li neka kombinacija resurs(a) na početnim susjednim poljima koja povećava vjerojatnost pobjede?</li>
   <li>Postoji li neka kombinacija broj(eva) na početnim susjednim poljima koja povećava vjerojatnost pobjede?</li>
-  <li></li>
+  <li>Utječe li redoslijed postavljanja naselja na pobjednika?</li>
 </ol>
 
 ```{r}
@@ -28,8 +28,14 @@ source("../R/CatanDataLoading.R")
 
 \newpage
 ## 1. Je li kocka poštena?
+<p>
+Svima se sigurno dogodila partija u kojoj su naselja lukavo postavili na poziciju susjednu poljima s brojevima koji bi teoretski trebali češće padati, međutim magično su se brojevi 3 i 12 pojavljivali češće nego 8 i 9. Budući da se i njima samima dogodila takva partija, autori rada odlučili su prvo istražiti je li kocka poštena. Odnosno, pojavljuje li se zaista broj 7 najčešće, malo rjeđe brojevi 6 i 8, i tako do bojeva 2 i 12, koji bi se najređe trebali pojavljivati. Budući da imamo prilično velik uzorak bacanja, distribucija brojeva bi trebala biti slična normalnoj.
+</p>
+```{r}
+source("../R/CatanAnalyseMatchData")
+```
 
-TODO filler text
+
 
 \newpage
 ## 2. Utjecaj početka igre na pobjedu
