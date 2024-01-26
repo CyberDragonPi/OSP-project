@@ -7,6 +7,8 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
 ```
 
 ## 0. MOTIVACIJA I UVOD
@@ -154,6 +156,21 @@ Zaključak
 \newpage
 ## 5. Predikcija
 
-\newpage
+<p>
+U svrhu pobjeđivanje pokušati ćemo zaključiti imaju li dobitci i gubljenje resursa značajnu vezu s pobjeđivanje. Iz tog razloga stvaramo linearan model koji će predviđati broj bodova na temelju svih mogućih dobitaka i gubitaka resursa.
+</p>
+
+```{r}
+source("../R/Model.R")
+summary(linMod)
+```
+<h2>
 Zaključak
+</h2>
+<p>
+Rezultati koje nam daje linearan model su vrlo loši, predviđa bodove s vrijednosti +-3, s tim da 50% predikcija ima grešku +-1. S obzirom da igrač pobjeđuje u Catanu kada skupi 10 ili više bodova, a sve u igri pridonosi 1 ili 2 boda, ovakva greška je vrlo velika i zaključujemo da linearan model nije dobar za predviđanje bodova u igri Catan. To je konzistentno s rezultatima na kaggleu na ovom datasetu gdje linearni modeli daju loše rezultate, no ljudi su imali više uspjeha s logističkom regresijom gdje binarno klasificiraju rezultat kao pobjedu ili gubitak te su neki postigli preciznost ~80%.
+</p>
+
+\newpage
+## Zaključak
 TODO lorem ipsum 
