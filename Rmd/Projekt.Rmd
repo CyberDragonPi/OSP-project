@@ -2,13 +2,16 @@
 title: "Projekt - Settlers of Catan stats"
 author: "36544062 Marko Pongrac, 36540794 Marko Kukolj"
 date: "`r Sys.Date()`"
-output: pdf_document
+output: 
+  pdf_document:
+    fig_caption: false
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(ggplot2)
+library(gridExtra)
 ```
 
 ## 0. MOTIVACIJA I UVOD
@@ -18,6 +21,7 @@ library(ggplot2)
   <li>Je li kocka zaista poštena?</li>
   <li>Postoji li neka kombinacija resurs(a) na početnim susjednim poljima koja povećava vjerojatnost pobjede?</li>
   <li>Postoji li neka kombinacija broj(eva) na početnim susjednim poljima koja povećava vjerojatnost pobjede?</li>
+  <li>Utječe li, i ako da kako, tradeanje (trgovanje) na ishod igre?</li> 
   <li>Utječe li redoslijed postavljanja naselja na pobjednika?</li>
 </ol>
 
@@ -64,7 +68,7 @@ Možemo zaključiti da kocka zaista je poštena, te da ako se igračima čini da
 </p>
 
 \newpage
-## 2. Utjecaj početka igre na pobjedu
+## 2. Utjecaj početka igre
 
 <p>
 Najbitnija stvar u igri Catan je kao i u svakoj društvenoj igri pobjediti, pa ćemo nakon prethodne, očito pogrešne, analize da je kocka poštena (svatko tko je igrao bilo kakvu društvenu igru zna da kocka nikako nije poštena) pokušati otkriti kako pobijediti. Prvo ćemo razmatrati kako početak igre utječe na izglede pobjede. Pokušati ćemo odgovoriti na dva pitanja u ovom dijelu:
@@ -78,7 +82,7 @@ Najbitnija stvar u igri Catan je kao i u svakoj društvenoj igri pobjediti, pa �
   </li>
 </ol>
 
-## 2.1. Utjecaj početnih resursa na pobjedu
+## 2.1. Utjecaj početnih resursa
 
 <p>
 Prije početka legenda resursa:
@@ -137,14 +141,14 @@ ggplot() +
 Iz grafa je evidentno da svi igrači imaju prilično sličnu viziju kako igrati Catan. Pobjednici cijene ovce(S na grafu) kao resurs više od ostalih igrača, no osim toga čini se da igrači stavljaju vrlo slične vrijednosti na resurse.
 </p>
 <h2>
-Zaključak
+ZAKLJUČAK
 </h2>
 <p>
 Čini se da pšenica i ovcu imaju najveću vrijednost pri postavljanju početna 2 naselja, nakon čega slijedi drvo te veliku vrijednost, no manju od prethodna 3 resursa, imaju i kamen i cigla. Luke imaju izuzetno malu vrijednost, te pobjednici jedino stavljaju bitno veći prioritet na ovce od ostalih igrača (čak nevjerojatnih 2.5% više pobjednika u prva dva naselja osigura pristup ovcama u odnosu na ostale igrače), tako da je možda pametno osigurati pristup ovcama na početku igre.
 </p>
 
 \newpage
-## 2.2 Utjecaj početnih brojeva na pobjedu
+## 2.2 Utjecaj početnih brojeva
 
 <p>
 Nakon razočaravajućeg rezultata da početni resursi ne čine bitno razliku u određivanju pobjednika okrećemo se brojevima u našem nastojanju da maksimiziramo svoje šanse pobjede već na početku igre.
@@ -174,16 +178,120 @@ Za razliku od prethodne analize vidimo da postoji bitnija razlika u biranju broj
 </p>
 
 <h2>
-Zaključak
+ZAKLJUČAK
 </h2>
 <p>
 Čini se da je puno bitnije odabrati polja koja imaju "dobre" brojeve (brojeve koji imaju veću vjerojatnost da padnu) na početku igre, nego fokusirati se na resurse, tako da sljedeći put kad igrate dobro razmislite kako postaviti svoja naselja tako da maksimizirate vjerojatnost da dobijete nešto u svakom bacanju. Ovakav rezultat ide u prilog rezultatu da je kocka poštena, iako mislim da se svi iskustveno možemo složiti da je kocka sve osim poštena.
 </p>
 
-## 3. Tradeanje (naslov WIP)
+## 3. Utjecaj trgovanja
+
+<p>
+U igri Catan moguće je trgovati s bankom, pri čemu igrač banci daje 4 karte istog resursa za 1 kartu nekog resursa, ili razmjenjivati u boljim uvjetima ako ima odgovarajuću luku. Osim toga, moguće je direktno trgovati s drugim igračima, pri čemu igrači sami dogovaraju koje će karte razmjeniti. U ovom dijelu zanima nas utječe li kako broj dobivenih i izgubljenih karti trgovanjem na ishod igre. 
+</p>
+
+```{r}
+g1 <- ggplot(game_winner_data, aes(x = tradeGain)) +
+  geom_bar(aes(fill = "Trade gain"),
+           stat = "count",
+           position = "stack",
+           alpha = 0.5) +
+  geom_bar(aes(x = -tradeLoss, fill = "Trade loss"),
+           stat = "count",
+           position = "stack",
+           alpha = 0.5) +
+  scale_fill_manual(name = "Legend",
+                    breaks = c("Trade gain", "Trade loss"),
+                    values = c("Trade gain" = "#202A44", "Trade loss" = "#E40046")) +
+  labs(title = "Trading - winners", x = "Trade", y = "Count") +
+  theme_minimal()
+
+g2 <- ggplot(game_winner_data, aes(x = tradeGain - tradeLoss)) +
+  geom_bar(fill = "#84E30B", stat = "count", alpha = 0.5) +
+  labs(title = "Trading - winners", y = "Count") +
+  theme_minimal()
+
+g3 <- ggplot(non_game_winner_data, aes(x = tradeGain)) +
+  geom_bar(aes(fill = "Trade gain"),
+           stat = "count",
+           position = "stack",
+           alpha = 0.5) +
+  geom_bar(aes(x = -tradeLoss, fill = "Trade loss"),
+           stat = "count",
+           position = "stack",
+           alpha = 0.5) +
+  scale_fill_manual(name = "Legend",
+                    breaks = c("Trade gain", "Trade loss"),
+                    values = c("Trade gain" = "#202A44", "Trade loss" = "#E40046")) +
+  labs(title = "Trading - non-winners", x = "Trade", y = "Count") +
+  theme_minimal()
+
+g4 <- ggplot(non_game_winner_data, aes(x = tradeGain - tradeLoss)) +
+  geom_bar(fill = "#84E30B", stat = "count", alpha = 0.5) +
+  labs(title = "Trading - non-winners", y = "Count") +
+  theme_minimal()
+
+grid.arrange(g1, g3)
+grid.arrange(g2, g4)
+
+```
+
+<p>
+Iz grafova čini se kako pobjednici trguju više nego ostali igrači. Pogledati ćemo još srednju vrijednost i medijan tradeGaina i tradeLossa kako bi potvrdili ili odbacili ovu hipotezu.
+</p>
+
+```{r}
+game_winner_data$tradeGain %>%
+  mean() %>%
+  sprintf("Winners mean trade gain: %.2f", .) %>% 
+  cat("\n")
+game_winner_data$tradeLoss %>%
+  mean() %>%
+  sprintf("Winners mean trade loss: %.2f", .) %>% 
+  cat("\n")
+non_game_winner_data$tradeGain %>%
+  mean() %>%
+  sprintf("Non-winners mean trade gain: %.2f", .) %>% 
+  cat("\n")
+non_game_winner_data$tradeLoss %>%
+  mean() %>%
+  sprintf("Non-winners mean trade loss: %.2f", .) %>% 
+  cat("\n")
+```
+
+```{r}
+game_winner_data$tradeGain %>%
+  median() %>%
+  sprintf("Winners median trade gain: %.2f", .) %>% 
+  cat("\n")
+game_winner_data$tradeLoss %>%
+  median() %>%
+  sprintf("Winners median trade loss: %.2f", .) %>% 
+  cat("\n")
+non_game_winner_data$tradeGain %>%
+  median() %>%
+  sprintf("Non-winners median trade gain: %.2f", .) %>% 
+  cat("\n")
+non_game_winner_data$tradeLoss %>%
+  median() %>%
+  sprintf("Non-winners median trade loss: %.2f", .) %>% 
+  cat("\n")
+```
+
+
+<p>
+Iz medijana i srednje vrijednosti vidljivo je da pobjednici češće trguju od ostalih igrača, no vidimo i da je prosječan omjer dobivenih i izgubljenih karti otprilike \(\frac{1}{2}\).
+</p>
+
+<h2>
+ZAKLJUČAK
+</h2>
+<p>
+Pobjednici u prosjeku dobiju 2 više karte iz trgovanja i izgube 5 više karata, iz čega zaključujemo da pobjednici više trguju od ostalih igrača.
+</p>
 
 \newpage
-## 4. Redoslijed postavljanja naselja (naslov WIP)
+## 4. Utjecaj Redoslijed postavljanja naselja
 <p>
 Za većinu društvenih igara, osobe koje ih igraju malo ozbiljnije smatraju da je bolje biti osoba koja započinje igru, odnosno biti prvi na potezu. Budući da je cilj rada pokušati naći informaciju koja može dovesti do povećanja vjerojatnosti pobjede, ispitati ćemo istinitost ove tvrdnje. Konkretnije, tražimo postoji li korelacija između redoslijeda igranja i osvojenog broja bodova te broja pobjeda.
 </p>
@@ -234,7 +342,7 @@ summary(linMod)
 ```
 
 <h2>
-Zaključak
+ZAKLJUČAK
 </h2>
 <p>
 Rezultati koje nam daje linearan model su vrlo loši, predviđa bodove s vrijednosti +-3, s tim da 50% predikcija ima grešku +-1. S obzirom da igrač pobjeđuje u Catanu kada skupi 10 ili više bodova, a sve u igri pridonosi 1 ili 2 boda, ovakva greška je vrlo velika i zaključujemo da linearan model nije dobar za predviđanje bodova u igri Catan. To je konzistentno s rezultatima na kaggleu na ovom datasetu gdje linearni modeli daju loše rezultate, no ljudi su imali više uspjeha s logističkom regresijom gdje binarno klasificiraju rezultat kao pobjedu ili gubitak te su neki postigli preciznost ~80%.
@@ -242,4 +350,35 @@ Rezultati koje nam daje linearan model su vrlo loši, predviđa bodove s vrijedn
 
 \newpage
 ## Zaključak
-TODO lorem ipsum 
+
+<p>
+U danom podatkovnom skupu nalaze se podaci o 50 partija igre Catan, tako da ne možemo tvrditi da je skup sasvim reprezentativan te da su rezultati mjerodavni, no rezultati su prilično konzistentni s rezultatima koji se mogu naći na internetu. Na početku ove analize postavili smo 4 pitanja na koja smo tražili odgovor te smo analizom dobili i odgovor na njih.
+</p>
+<ol start="1" style="margin-left: 5em;">
+  <li>
+  Je li kocka zaista poštena? Odgovor na zaprepaštenje svakog igrača bilo kakve društvene igre je da (što ću sad kriviti kada ne dobijem ako ne mogu kocku...). 
+  </li>
+  <li>
+  Postoji li neka kombinacija resurs(a) na početnim susjednim poljima koja povećava vjerojatnost pobjede? Ne možemo tvrditi da početni resursi imaju presudnu ulogu u igri, jer vidimo da i pobjednici i ostali igrači imaju slična viđenja o bitnosti pojedinih resursa, tako da je odgovor iz ove analize ne.
+  </li>
+  <li>
+  Postoji li neka kombinacija broj(eva) na početnim susjednim poljima koja povećava vjerojatnost pobjede? Za razliku od prošlog pitanja, u analizi smo otkrili da je najbolja strategija za povećavanje vjerojatnosti pobjede u igri postavljati naselja tako da se graniče s poljima koja imaju "najbolje" brojeve (brojeve s najvećom vjerojatnosti pojavljivanja). Stoga je odgovor na ovo pitanje u ovoj analizi da.
+  </li>
+  <li>
+  Utječe li, i ako da kako, tradeanje (trgovanje) na ishod igre? U analizi smo otkrili da pobjednici trguju više od preostalih igrača, tako da je zaključak ove analize da trgovanje utječe na vjerojatnost pobjede i da je bolje češće trgovati.
+  </li> 
+  <li>
+  Utječe li redoslijed postavljanja naselja na pobjednika? Ovo je pitanje koje je možda dalo najodlučniji odgovor. Iz analize vidimo da najveću vjerojatnost pobjede ima 2. igrač, nakon njega 3. igrač, pa 4. igrač te se na posljednjem mjestu nalazi 1. igrač.
+  </li>
+  <li>
+  Pokušali smo i napraviti linearan model za predviđanje broja bodova na temelju podataka iz igre te nismo dobili najbolje rezultate te je možda prikladnije koristiti neki drugi model (npr. logističku regresiju ili kNN).
+  </li>
+</ol>
+
+<p>
+Iz ovog skupa podataka otkrili smo da postoje određeni faktori koji utječu na pobjedu, no za dublju analizu, vjerojatno je potreban detaljniji skup podataka koji bilježi podatke o svakom potezu. Slijedeći koraci u analizi ove igre mogli bi biti: pronalazak još detaljnijeg skupa podataka, korištenje prediktivnih modela te pokušati kombinirati vrijednost broja na polju i vrijednost resursa na polju.
+</p>
+
+<p>
+To je sve od nas, hvala Vam na čitanju i nadamo se da ste se bar malo zabavili.
+</p>
